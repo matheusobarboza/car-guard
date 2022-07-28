@@ -1,22 +1,32 @@
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Client } from "./client";
+import {
+  Column,
+  Entity,
+  JoinColumn, ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn
+} from "typeorm";
+import { Client } from "./Client";
 import { ThirdPartie } from "./ThirdPartie";
 import { Vehicle } from "./Vehicle";
 
-@Entity('accidents')
+@Entity("accidents")
 export class Accident {
-  @PrimaryGeneratedColumn('uuid')
-  id: string
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-  @Column({ type: "text" })
-  description: string
+  @Column()
+  description: string;
 
-  @ManyToOne(() => Client, client => client.accidents)
-  client: Client
-  
-  @ManyToOne(() => Vehicle, vehicles => vehicles.accidents)
-  vehicles: Vehicle
+  @Column()
+  client_id: string;
 
-  @ManyToMany(() => ThirdPartie, thirdPartie => thirdPartie.accidents)
-  thirdParties: ThirdPartie[]
+  @ManyToOne(() => Client, (client) => client.accidents)
+  @JoinColumn({ name: "client_id" })
+  client: Client;
+
+  @ManyToOne(() => Vehicle, (vehicles) => vehicles.accidents)
+  vehicles: Vehicle;
+
+  @OneToMany(() => ThirdPartie, (thirdPartie) => thirdPartie.accidents)
+  thirdParties: ThirdPartie[];
 }

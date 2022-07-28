@@ -1,17 +1,26 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn, ManyToOne,
+  PrimaryGeneratedColumn
+} from "typeorm";
 import { Accident } from "./Accident";
 
-@Entity('thirdParties')
+@Entity("thirdParties")
 export class ThirdPartie {
-  @PrimaryGeneratedColumn('uuid')
-  id: string
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-  @Column({ type: "text" })
-  name: string
+  @Column()
+  name: string;
 
-  @Column({ type: "text" })
-  identification: string
+  @Column()
+  identification: string;
 
-  @ManyToMany(() => Accident, accidents => accidents.thirdParties)
-  accidents: Accident[];
+  @Column()
+  accident_id: string;
+
+  @ManyToOne(() => Accident, (accidents) => accidents.thirdParties)
+  @JoinColumn({ name: "accident_id" })
+  accidents: Accident;
 }
