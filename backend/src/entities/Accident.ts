@@ -7,7 +7,6 @@ import {
 } from "typeorm";
 import { Client } from "./Client";
 import { ThirdPartie } from "./ThirdPartie";
-import { Vehicle } from "./Vehicle";
 
 @Entity("accidents")
 export class Accident {
@@ -23,9 +22,6 @@ export class Accident {
   @ManyToOne(() => Client, (client) => client.accidents)
   @JoinColumn({ name: "client_id" })
   client: Client;
-
-  @ManyToOne(() => Vehicle, (vehicles) => vehicles.accidents)
-  vehicles: Vehicle;
 
   @OneToMany(() => ThirdPartie, (thirdPartie) => thirdPartie.accidents)
   thirdParties: ThirdPartie[];
