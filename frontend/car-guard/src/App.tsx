@@ -1,5 +1,5 @@
-import { useFetch } from "./hooks/useFetch";
-
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 interface ClientRequest {
   name: string;
   identification: string;
@@ -14,12 +14,16 @@ interface VehicleRequest {
 }
 
 function App() {
-  const { data: clients, isFetching } = useFetch<ClientRequest[]>('clients');
+  const { data, isFetching } = useQuery<ClientRequest[]>(['clients'], async () => {
+    const response = await axios.get('http://localhost:3000/clients')
+
+    return response.data;
+  })
 
   return (
     <ul>
       {isFetching && <p>Carregando...</p>}
-      {clients?.map((client) => {
+      {data?.map((client) => {
         return (
           <li key={client.identification}>
             <strong>{client.name}</strong>
