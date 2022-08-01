@@ -1,11 +1,34 @@
-import './App.css'
+import { useFetch } from "./hooks/useFetch";
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Hello World!</h1>
-    </div>
-  )
+interface ClientRequest {
+  name: string;
+  identification: string;
+  vehicles?: Array<VehicleRequest>;
 }
 
-export default App
+interface VehicleRequest {
+  name: string;
+  carBrand: string;
+  licensePlate: string;
+  client_id: string;
+}
+
+function App() {
+  const { data: clients, isFetching } = useFetch<ClientRequest[]>('clients');
+
+  return (
+    <ul>
+      {isFetching && <p>Carregando...</p>}
+      {clients?.map((client) => {
+        return (
+          <li key={client.identification}>
+            <strong>{client.name}</strong>
+            <p>{client.identification}</p>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+export default App;
