@@ -6,7 +6,7 @@ export function App() {
   return (
     <Routes>
       <Route path="/" element={<Clients />} />
-      <Route path="/repo" element={<Client />} />
+      <Route path="/clients/*" element={<Client />} />
     </Routes>
   );
 }
