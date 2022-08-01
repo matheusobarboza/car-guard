@@ -1,38 +1,12 @@
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-interface ClientRequest {
-  name: string;
-  identification: string;
-  vehicles?: Array<VehicleRequest>;
-}
+import { Route, Routes } from "react-router-dom";
+import { Client } from "./pages/Client";
+import { Clients } from "./pages/Clients";
 
-interface VehicleRequest {
-  name: string;
-  carBrand: string;
-  licensePlate: string;
-  client_id: string;
-}
-
-function App() {
-  const { data, isFetching } = useQuery<ClientRequest[]>(['clients'], async () => {
-    const response = await axios.get('http://localhost:3000/clients')
-
-    return response.data;
-  })
-
+export function App() {
   return (
-    <ul>
-      {isFetching && <p>Carregando...</p>}
-      {data?.map((client) => {
-        return (
-          <li key={client.identification}>
-            <strong>{client.name}</strong>
-            <p>{client.identification}</p>
-          </li>
-        );
-      })}
-    </ul>
+    <Routes>
+      <Route path="/" element={<Clients />} />
+      <Route path="/repo" element={<Client />} />
+    </Routes>
   );
 }
-
-export default App;
