@@ -1,5 +1,6 @@
-import { BellSimpleRinging, MagnifyingGlass, PoliceCar } from "phosphor-react";
-import profile from '../assets/profile.jpg';
+import { BellSimpleRinging, CaretUp, MagnifyingGlass, PoliceCar } from "phosphor-react";
+import { useState } from "react";
+import profile from "../assets/profile.jpg";
 import { NavLink } from "./NavLink";
 
 const navLinks = {
@@ -21,6 +22,8 @@ const navLinks = {
 };
 
 export function Header() {
+  const [isActive, setIsActive] = useState("Overview");
+
   return (
     /* logo */
     <div className="items-center justify-between flex w-full space-x-4 pb-3 pt-4 px-3">
@@ -39,8 +42,13 @@ export function Header() {
       <div className="border-b pb-5 border-gray-400 w-[140%] items-center justify-center flex space-x-2">
         {Object.entries(navLinks).map(([key, value]) => {
           return (
-            <div key={key} className="relative items-center justify-center flex">
+            <div
+              onClick={() => setIsActive(value.title)}
+              key={key}
+              className="relative items-center justify-center flex"
+            >
               <NavLink title={value.title} />
+              <CaretUp size={30} className={ `${value.title === isActive ? "pt-3 items-center justify-center flex absolute -bottom-3" : "hidden"}` }/>
             </div>
           );
         })}
@@ -49,7 +57,11 @@ export function Header() {
       <div className="border-b border-gray-400 pb-6 pt-4 hidden md:flex items-center justify-start px-3 space-x-6 w-[60%]">
         <MagnifyingGlass size={28} />
         <BellSimpleRinging size={28} />
-        <img src={profile} alt="profile" className="w-8 h-8 rounded-full object-center object-cover " />
+        <img
+          src={profile}
+          alt="profile"
+          className="w-8 h-8 rounded-full object-center object-cover "
+        />
       </div>
     </div>
   );
